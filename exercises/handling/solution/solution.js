@@ -1,35 +1,28 @@
-var Hapi = require('hapi');
-var Inert = require('inert');
-var Path = require('path');
+const Hapi = require('hapi')
+const Inert = require('inert')
+const Path = require('path')
 
-var server = new Hapi.Server({
-    connections: {
-        routes: {
-            files: {
-                relativeTo: __dirname
-            }
-        }
-    }
-});
+const server = Hapi.Server({
+  host: 'localhost',
+  port: Number(process.argv[2]) || 8080
+})
 
+const init = async () => {
+  try {
+    await server.register(Inert)
 
-server.connection({
-    host: 'localhost',
-    port: Number(process.argv[2] || 8080)
-});
+    server.route({
+      path: '/',
+      method: 'GET',
+      handler: {
+        file: Path.join(__dirname, 'handling-index.html')
+      }
+    })
 
-server.register(Inert, (err) => {
-    if (err) throw err;
-});
+    await server.start()
+  } catch (err) {
 
-server.route({
-    method: 'GET',
-    path: '/',
-    handler: {
-        file: Path.join(__dirname, 'index.html')
-    }
-});
+  }
+}
 
-server.start((err) => {
-    if (err) throw err;
-});
+init()
