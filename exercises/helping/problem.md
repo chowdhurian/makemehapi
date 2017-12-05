@@ -24,8 +24,8 @@ Be sure to register the `vision` plugin when attempting to render the template.
 Helpers are functions used within templates to perform transformations and other
 data manipulations using the template context or other inputs.
 
-You can define a helpers path in the server options. All `.js` files in this
-directory will be loaded and the file name will be used as the helper name.
+You can define a helpers path in the server options. Each valid template file in
+the helpers directory is loaded and the file name is used as the helper name.
 
 ```js
 var options = {
